@@ -1,9 +1,6 @@
 import pytesseract
 from PIL import ImageGrab
-from PIL import Image
-from flask import Flask, Response, render_template, request, redirect, url_for, send_from_directory
-from werkzeug.utils import secure_filename
-import os
+from flask import Flask, Response, render_template
 
 app = Flask(__name__)
 
@@ -15,9 +12,8 @@ def update_page_with_ocr_text():
 
     if ocr_image:
         ocr_image.save('images/clipboard.png')
-        text = pytesseract.image_to_pdf_or_hocr(ocr_image, extension='hocr', lang='eng+jpn')
+        text = pytesseract.image_to_pdf_or_hocr(ocr_image, extension='hocr', lang='eng+jpn+chi_sim+chi_tra+kor+spa+fra')
         return Response(text, mimetype='text/html')
-    
     else:
         return render_template('index.html', result='No image found in clipboard.')
     
